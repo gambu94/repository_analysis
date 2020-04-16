@@ -30,6 +30,7 @@ def read_code(path):
 
 def parse_results():
     ret = []
+    if not os.path.isdir(results_dir) : return ret
     for user in os.listdir(results_dir) :
         if ( user[0] == '.' ) : continue
         t_user = { 'username' : user, 'repos' : [] }

@@ -1,0 +1,36 @@
+swagger: "2.0"
+info:
+  description: This is the swagger file that goes with our server code
+  version: "1.0.0"
+  title: Hotspot Analysis REST API
+consumes:
+  - "application/json"
+produces:
+  - "application/json"
+
+basePath: "/api"
+
+# Paths supported by the server application
+paths:
+  /frontend/:
+    get:
+      operationId: 'frontend.get_time'
+      tags:
+        - hotspot
+      summary: Read one person from the people list
+      description: Read one person from the people list
+      responses:
+        200:
+          description: "Successfully repository analysis"
+          schema:
+            type: "array"
+            items:
+              properties:
+                filename:
+                  type : "string"
+                commit_count:
+                  type : number
+                files_cyclomatic_count:
+                  type : number
+                files_nloc_count:
+                  type : number

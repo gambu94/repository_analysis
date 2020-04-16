@@ -1,0 +1,45 @@
+swagger: "2.0"
+info:
+  description: This is the swagger file that goes with our server code
+  version: "1.0.0"
+  title: Skill Analysis REST API
+consumes:
+  - "application/json"
+produces:
+  - "application/json"
+
+basePath: "/api"
+
+# Paths supported by the server application
+paths:
+  /skill-analysis/{user}/:
+    get:
+      operationId: 'skill_analysis.main'
+      tags:
+        - skill
+      summary: Analyze skills of programmer
+      description: Look at all contibution of user.
+      parameters:
+        - name: user
+          in: path
+          description: github username
+          type: string
+          required: True
+        - name: packages
+          in: query
+          description: list of packages to filter (java.utils)
+          type: array
+          items:
+            type: string
+          required: False
+      responses:
+        200:
+          description: "Successfully repository analysis"
+          schema:
+            type: "array"
+            items:
+              properties:
+                package:
+                  type : "string"
+                count:
+                  type : number

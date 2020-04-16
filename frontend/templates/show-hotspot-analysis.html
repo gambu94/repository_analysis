@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en-EN">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="" />
+    <meta name="author" content="Giuseppe Gambuzza" />
+    <title>Repository Analiysis</title>
+    <!-- Bootstrap core CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://kit.fontawesome.com/7f0344b895.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <style>
+      #chart {
+        max-width: 650px;
+        margin: 35px auto;
+      }
+      #chart,
+      .chart-box {
+        padding-top: 20px;
+        padding-left: 10px;
+        background: #fff;
+        border: 1px solid #ddd;
+        box-shadow: 0 22px 35px -16px rgba(0, 0, 0, 0.1);
+      }
+
+      select.flat-select {
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        appearance: none;
+        background: #008ffb
+          url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60px' height='60px'><polyline fill='white' points='46.139,15.518 25.166,36.49 4.193,15.519'/></svg>")
+          no-repeat scroll right 2px top 9px / 16px 16px;
+        border: 0 none;
+        border-radius: 3px;
+        color: #fff;
+        font-family: arial, tahoma;
+        font-size: 16px;
+        font-weight: bold;
+        outline: 0 none;
+        height: 33px;
+        padding: 5px 20px 5px 10px;
+        text-align: center;
+        text-indent: 0.01px;
+        text-overflow: "";
+        text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+        transition: all 0.3s ease 0s;
+        width: auto;
+        -webkit-transition: 0.3s ease all;
+        -moz-transition: 0.3s ease all;
+        -ms-transition: 0.3s ease all;
+        -o-transition: 0.3s ease all;
+        transition: 0.3s ease all;
+      }
+      select.flat-select:focus,
+      select.flat-select:hover {
+        border: 0;
+        outline: 0;
+      }
+
+      .apexcharts-canvas {
+        margin: 0 auto;
+      }
+    </style>
+
+    <script>
+      window.Promise ||
+        document.write(
+          '<script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.min.js"><\/script>'
+        );
+      window.Promise ||
+        document.write(
+          '<script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20171210/classList.min.js"><\/script>'
+        );
+      window.Promise ||
+        document.write(
+          '<script src="https://cdn.jsdelivr.net/npm/findindex_polyfill_mdn"><\/script>'
+        );
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-apexcharts"></script>
+
+    <script>
+      // Replace Math.random() with a pseudo-random number generator to get reproducible results in e2e tests
+      // Based on https://gist.github.com/blixt/f17b47c62508be59987b
+      var _seed = 42;
+      Math.random = function() {
+        _seed = (_seed * 16807) % 2147483647;
+        return (_seed - 1) / 2147483646;
+      };
+      function generateData(count, yrange) {
+        var i = 0;
+        var series = [];
+        while (i < count) {
+          var x = "w" + (i + 1).toString();
+          var y =
+            Math.floor(Math.random() * (yrange.max - yrange.min + 1)) +
+            yrange.min;
+
+          series.push({
+            x: x,
+            y: y
+          });
+          i++;
+        }
+        return series;
+      }
+    </script>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <a class="navbar-brand" href="#">G.S.G. Project</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarCollapse"
+        aria-controls="navbarCollapse"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#repository-analysis">Repository Info</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#results-list">Results List</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <hr id="repository-analysis" class="pt-5" />
+    <main role="main" class="container mt-3">
+      <h2>Repository Info - Hotspot</h2>
+
+      <div class="alert alert-warning" role="alert">
+        This is still beta version!
+      </div>
+      <div id="app">
+        <div id="chart">
+          <apexchart
+            type="heatmap"
+            height="350"
+            :options="chartOptions"
+            :series="series"
+          ></apexchart>
+        </div>
+      </div>
+      <script>
+        var jsonEsempio = {{ res | safe}} ;
+        var obj;
+        var str = "";
+        var series = [];
+        var filename = "";
+        var newEntry = {};
+        for (var i = 0; i < jsonEsempio.length; i++) {
+          fileName = jsonEsempio[i].filename;
+          newEntry = {
+            name: fileName,
+            data: [
+              {
+                x: jsonEsempio[i].files_cyclomatic_count,
+                y: jsonEsempio[i].commit_count
+              }
+            ]
+          };
+          series.push(newEntry);
+        }
+        new Vue({
+          el: "#app",
+          components: {
+            apexchart: VueApexCharts
+          },
+          data: {
+            series: series,
+            chartOptions: {
+              chart: {
+                height: 350,
+                type: "heatmap"
+              },
+              dataLabels: {
+                enabled: true
+              },
+              colors: ["#aa1111"],
+              title: {
+                text: "HeatMap Hotspot"
+              }
+            }
+          }
+        });
+      </script>
+    </main>
+  </body>
+</html>

@@ -18,6 +18,15 @@ How to start GUI:
 
 GUI is working on localhost:5000, services are listening on following ports (5001 to 5003).
 
+## DOCKER SERVICES
+If you want use our microservices using the powerful Docker Swarm infrastructure you should follow the complete guideline to create:
+
+- Docker shared volume `my-volume`.
+- Docker `images` of services.
+
+Then you are able to launch our microservices as `docker services` enjoying benefits as automatic `replication` and automatic `load-balancing`.
+
+
 ## ADD YOUR OWN ANALYSIS
 
 In order to add your analysis you can use the template we provided.

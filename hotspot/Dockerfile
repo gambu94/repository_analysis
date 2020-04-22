@@ -1,6 +1,8 @@
 FROM ubuntu-base
-COPY /* /home/
-COPY /templates/* /home/templates/
+ADD ./hotspot/* /home/
+ADD ./hotspot/templates/* /home/templates/
+ADD ./utils /home/utils
+VOLUME [ "/home/utils" ]
 ENV PATH /usr/local/bin:$PATH
 ENV LANG C.UTF-8
 EXPOSE 5001/tcp

@@ -12,7 +12,6 @@ from utils.utils import *
 
 
 def mine_repo(repo):
-
     commits = collections.defaultdict(set)
     path = repo.path
 
@@ -51,7 +50,6 @@ def cc_graph(commits):
 
 
 def main(user, repo_name):
-
     repo = clone_repo(user,repo_name)
     if repo is None:
         return { 'error' : 'Repo not found' }
@@ -59,11 +57,8 @@ def main(user, repo_name):
     commits = mine_repo(repo)
     G = cc_graph(commits)
 
-    #graph = nx.readwrite.json_graph.adjacency_data(G)
-    #graph = json.dumps(graph)
-   
     graph = nx.readwrite.json_graph.jit_data(G)
-    #nx.write_gexf(G, 'myGraph.gexf')
+
     path = repo.path
     clean_tmp_dir(path)
     save_result(graph, CHANGE_COUPLING, user, repo_name)

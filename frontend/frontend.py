@@ -78,6 +78,7 @@ def show_change(user,repo):
     result = results_dir/user/repo/CHANGE_COUPLING/'change-coupling.json';
     res = read_code(result)
     return render_template('show-change-coupling.html', res=res)
+
 # If we're running in stand alone mode, run the application
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

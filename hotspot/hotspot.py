@@ -22,9 +22,6 @@ def analyze_repo(repo) :
 
     for commit in RepositoryMining(path).traverse_commits() :
         for mod in commit.modifications :
-            # nel caso in cui un file cambia path
-            # sommiamo i commit precedenti e
-            # rimuoviamo le entry col vecchio path
             if mod.old_path != mod.new_path :
                 print(mod.old_path, mod.new_path)
                 if mod.new_path == None :
@@ -35,16 +32,11 @@ def analyze_repo(repo) :
                     counts[mod.new_path] = 1
                     nloc[mod.new_path] = mod.nloc or 0
                     cyclomatic[mod.new_path] = mod.complexity or 0
-                # old_path = None -> file inserito per la prima volta
-                # new_path = None -> file cancellato
-                #       questo crea elementi con chiave None
-                #       che cancelliamo alla fine
             else :
                 counts[mod.new_path] += 1
                 nloc[mod.new_path] = mod.nloc or 0
                 cyclomatic[mod.new_path] = mod.complexity or 0
 
-    # print('stop repo analysis, {} sec. elapsed'.format(end-start))
     return counts, nloc, cyclomatic
 
 def main(user,repo_name):
@@ -58,8 +50,6 @@ def main(user,repo_name):
 
     path = repo.path
     clean_tmp_dir(path)
-
-    #visual(commit_count, files_nloc_count, files_cyclomatic_count)
 
     end = time.time()
     time_elapsed = end - start

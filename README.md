@@ -26,6 +26,44 @@ If you want use our microservices using the powerful Docker Swarm infrastructure
 
 Then you are able to launch our microservices as `docker services` enjoying benefits as automatic `replication` and automatic `load-balancing`.
 
+### BUILD DOCKER IMAGES
+NOTE: we are building these images from our custom ubuntu image `ubuntu-base.tar.gz`.
+
+```bash
+$ docker build -t hotspot -f hotspot/Dockerfile .
+$ docker build -t change-coupling -f change_coupling/Dockerfile .
+$ docker build -t skill-analysis -f skill_analysis/Dockerfile .
+...
+$ docker build -t frontend -f frontend/Dockerfile .
+```
+
+### CREATE DOCKER SERVICES
+
+```bash
+$ docker service create \
+  --replicas=4 \
+  --name hotspot-service \
+  --mount source=my-volume,target=/home/utils \
+  hotspot
+$ docker service create \
+  --replicas=4 \
+  --name change-coupling-service \
+  --mount source=my-volume,target=/home/utils \
+  change-coupling
+$ docker service create \
+  --replicas=4 \
+  --name skill-analysis-service \
+  --mount source=my-volume,target=/home/utils \
+  skill-analysis
+...
+$ docker service create \
+  --replicas=4 \
+  --name frontend-service \
+  --mount source=my-volume,target=/home/utils,readonly \
+  frontend
+
+```
+
 
 ## ADD YOUR OWN ANALYSIS
 

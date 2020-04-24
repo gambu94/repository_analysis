@@ -27,7 +27,7 @@ If you want use our microservices using the powerful Docker Swarm infrastructure
 Then you are able to launch our microservices as `docker services` enjoying benefits as automatic `replication` and automatic `load-balancing`.
 
 ### BUILD DOCKER IMAGES
-NOTE: we are building these images from our custom ubuntu image `ubuntu-base.tar.gz`.
+NOTE: we are building these images from our custom ubuntu image [`ubuntu-base.tar.gz`](https://drive.google.com/open?id=1cACIhxlgPFZan-QEX12Uay-F6Mv9mmQA).
 
 ```bash
 $ docker build -t hotspot -f hotspot/Dockerfile .
